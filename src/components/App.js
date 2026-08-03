@@ -14,13 +14,17 @@ class App extends Component {
   }
 
   async loadWeb3() {
-  window.web3 = new Web3("http://127.0.0.1:7545")
+  window.web3 = new Web3("http://127.0.0.1:7545");
 }
   async loadBlockchainData() {
     const web3 = window.web3
     // Load account
     const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[2] })
+
+this.setState((prevState) => ({
+  accounts: accounts,
+  account: prevState.account || accounts[0]
+}))
     const networkId = await web3.eth.net.getId()
     console.log("Accounts:", accounts)
 console.log("Network ID:", networkId)
@@ -44,16 +48,18 @@ console.log("Networks:", Marketplace.networks)
       window.alert('Marketplace contract not deployed to detected network.')
     }
   }
+  
 
   constructor(props) {
     super(props)
     window.app = this
     this.state = {
-      account: '',
-      productCount: 0,
-      products: [],
-      loading: true
-    }
+  account: '',
+  accounts: [],
+  productCount: 0,
+  products: [],
+  loading: true
+}
 
     this.createProduct = this.createProduct.bind(this)
     this.purchaseProduct = this.purchaseProduct.bind(this)
@@ -99,12 +105,50 @@ console.log("Networks:", Marketplace.networks)
   render() {
     return (
       <div>
-        <Navbar account={this.state.account} />
+        <Navbar
+  account={this.state.account}
+  accounts={this.state.accounts}
+  changeAccount={(account) => this.setState({ account })}
+/>
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex">
               { this.state.loading
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+  ?
+
+<div
+id="loader"
+className="text-center w-100 mt-5"
+>
+
+<div
+className="spinner-border text-primary"
+style={{
+width:"5rem",
+height:"5rem"
+}}
+role="status"
+>
+
+</div>
+
+<h3
+className="mt-4 text-light"
+>
+
+⛓ Connecting to Ethereum Blockchain...
+
+</h3>
+
+<p
+className="text-muted"
+>
+
+Please wait while BlockBazaar loads your marketplace.
+
+</p>
+
+</div>
                 : <Main
                   products={this.state.products}
                   createProduct={this.createProduct}
