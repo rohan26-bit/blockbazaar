@@ -1,34 +1,50 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Navbar extends Component {
+const Navbar = ({ account, accounts, changeAccount }) => {
+  return (
+    <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-3 shadow">
 
-  render() {
-    return (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4">
-    <a className="navbar-brand font-weight-bold" href="/">
-      🛒 BlockBazaar
-    </a>
+      <a
+        className="navbar-brand col-sm-3 col-md-2 mr-0"
+        href="/"
+        target="_self"
+      >
+        🛒 <strong>BlockBazaar</strong>
+      </a>
 
-    <div className="ml-auto d-flex align-items-center">
+      <div className="d-flex align-items-center">
 
-      <span className="badge badge-success mr-3 px-3 py-2">
-        ● Connected
-      </span>
+        <span
+          className="badge badge-success mr-3"
+          style={{ fontSize: "14px" }}
+        >
+          ● Connected
+        </span>
 
-      <div className="text-right">
-        <small className="text-light d-block">
-          Wallet
-        </small>
+        <select
+          className="form-control mr-3"
+          style={{ width: "250px" }}
+          value={account}
+          onChange={(e) => changeAccount(e.target.value)}
+        >
 
-        <small className="text-info">
-          {this.props.account}
-        </small>
+          {accounts.map((acc, index) => (
+
+            <option
+              key={index}
+              value={acc}
+            >
+              Account {index} - {acc.substring(0, 10)}...
+            </option>
+
+          ))}
+
+        </select>
+
       </div>
 
-    </div>
-  </nav>
-);
-  }
+    </nav>
+  );
 }
 
 export default Navbar;
