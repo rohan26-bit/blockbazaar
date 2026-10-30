@@ -1,182 +1,132 @@
-# 🚀 BlockBazaar – Blockchain-Based Online Marketplace
+# BlockBazaar
 
-A decentralized marketplace built using **Ethereum Blockchain**, **Solidity**, **React.js**, and **Web3.js** that enables users to securely list and purchase products without relying on a centralized authority.
+A blockchain-based marketplace prototype where users can list products and purchase them through an Ethereum smart contract. The project uses a React interface, Web3.js, Solidity, Truffle, and a local Ganache development network.
 
----
+## Overview
 
-## 📌 Project Overview
+BlockBazaar demonstrates how a web application can interact with a smart contract for marketplace operations. Product records are stored in the `Marketplace` contract, and purchases are submitted as Ethereum transactions on the configured development chain.
 
-BlockBazaar is a blockchain-powered online marketplace where users can create product listings and purchase products using Ethereum. All transactions are executed through Solidity smart contracts and stored on the blockchain, ensuring transparency, immutability, and secure ownership transfer.
+## Features
 
-Unlike traditional e-commerce applications, BlockBazaar removes the need for a centralized server to manage transactions.
+- Create product listings with a name and ETH price.
+- Purchase listed products through the marketplace smart contract.
+- Transfer product ownership to the buyer after a successful purchase.
+- Display marketplace products and transaction-related state.
+- Search products and filter the marketplace by category.
+- Sort products by recency or price, and filter for available products.
+- View basic marketplace insights, including highest-priced, lowest-priced, and available products.
+- Switch between accounts provided by the local Ganache network.
 
----
+## Technology stack
 
-## ✨ Features
+| Layer | Technologies |
+|---|---|
+| Frontend | React 16, JavaScript, Bootstrap 4, CSS |
+| Blockchain interaction | Web3.js 1.x |
+| Smart contracts | Solidity 0.5.x |
+| Development and migrations | Truffle 5 |
+| Local blockchain | Ganache |
+| Testing | Truffle tests, Mocha, Chai |
 
-- 🛒 List products on the blockchain
-- 💰 Purchase products using Ethereum
-- 🔒 Smart contract-based ownership transfer
-- 📊 Marketplace analytics dashboard
-- 📈 Marketplace Insights
-- 🔍 Real-time product search
-- 🗂 Category filtering
-- 🖼 Automatic product image mapping
-- 👤 Multi-wallet support (Ganache Accounts)
-- 🌙 Modern responsive dark UI
-- ⛓ Blockchain transaction handling
-- ⚡ Loading screen & empty marketplace state
+## Architecture
 
----
-
-## 🏗 Architecture
-
-```
-             User
-               │
-               ▼
-        React Frontend
-               │
-               ▼
-            Web3.js
-               │
-               ▼
-     Solidity Smart Contract
-               │
-               ▼
-       Ethereum (Ganache)
-```
-
----
-
-## 🛠 Tech Stack
-
-### Frontend
-
-- React.js
-- JavaScript
-- Bootstrap
-- CSS3
-
-### Blockchain
-
-- Solidity
-- Ethereum
-- Web3.js
-- Truffle
-- Ganache
-
-### Development
-
-- Git
-- GitHub
-- npm
-
----
-
-## 📷 Screenshots
-
-### Home Page
-
-(Add Screenshot Here)
-
----
-
-### Marketplace Dashboard
-
-(Add Screenshot Here)
-
----
-
-### Product Listing
-
-(Add Screenshot Here)
-
----
-
-### Wallet Selection
-
-(Add Screenshot Here)
-
----
-
-## 🚀 Installation
-
-Clone the repository
-
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_LINK>
+```text
+React application
+       |
+       v
+     Web3.js
+       |
+       v
+Local Ganache node
+(127.0.0.1:7545)
+       |
+       v
+Marketplace.sol
+       |
+       v
+Product listings and ETH payments
 ```
 
-Install dependencies
+The current frontend connects directly to the local JSON-RPC endpoint at `http://127.0.0.1:7545`. This repository is configured for local development; it does not document a public mainnet deployment or a MetaMask-based wallet connection.
+
+## Prerequisites
+
+- Node.js and npm
+- Ganache (GUI or CLI), listening on `127.0.0.1:7545`
+- A browser
+
+This project uses an older React Scripts and Truffle toolchain. Use a Node.js version compatible with the dependencies in `package.json`.
+
+## Run locally
+
+### 1. Install dependencies
+
+From the repository root:
 
 ```bash
 npm install
 ```
 
-Start Ganache.
+### 2. Start Ganache
 
-Deploy smart contracts
+Start a local Ganache workspace and confirm that its JSON-RPC server is available at:
 
-```bash
-truffle migrate --reset
+```text
+http://127.0.0.1:7545
 ```
 
-Run the React application
+The Truffle development network in `truffle-config.js` uses this host and port.
+
+### 3. Compile and deploy the smart contracts
+
+In a terminal at the repository root:
+
+```bash
+npx truffle compile
+npx truffle migrate --reset --network development
+```
+
+### 4. Start the React application
 
 ```bash
 npm start
 ```
 
----
+Open the local URL printed by the development server. Keep Ganache running while using the application.
 
-## 📂 Project Structure
+## Run smart contract tests
 
-```
-BlockBazaar
-│
-├── contracts
-├── migrations
-├── src
-│   ├── abis
-│   ├── components
-│   ├── contracts
-│   └── images
-├── public
-├── test
-└── package.json
+With Ganache available, run:
+
+```bash
+npx truffle test --network development
 ```
 
----
+The marketplace tests cover contract deployment, product creation, listing retrieval, and purchase validation.
 
-## 🔐 Smart Contract Features
+## Project structure
 
-- Product Creation
-- Product Purchase
-- Ownership Transfer
-- Blockchain Events
-- Ethereum Payment Handling
+```text
+blockbazaar/
+├── migrations/          # Truffle migration scripts
+├── public/              # Static web assets
+├── src/
+│   ├── abis/            # Contract ABI and deployment data
+│   ├── assets/          # Product images and other assets
+│   ├── components/      # React UI components
+│   └── contracts/       # Solidity smart contracts
+├── test/                # Smart contract tests
+├── package.json
+├── truffle-config.js
+└── README.md
+```
 
----
+## Important notes
 
-## 🌟 Future Enhancements
+- Run the app against the local Ganache network configured in `truffle-config.js`.
+- Restart the local deployment with `npx truffle migrate --reset --network development` if the contract needs to be redeployed.
+- Do not use real funds or treat this local prototype as a production marketplace.
 
-- AI Product Description Generator
-- MetaMask Integration
-- Product Ratings & Reviews
-- Blockchain Auction System
-- Public Ethereum Testnet Deployment
+## License
 
----
-
-## 👨‍💻 Developed By
-
-**Rohan Vitthal Kadam**
-
-B.Tech Computer Science Engineering
-
----
-
-## ⭐ If you like this project
-
-Give this repository a ⭐ on GitHub.
+See [LICENSE](LICENSE) for the license included with this repository.
