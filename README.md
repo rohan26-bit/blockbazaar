@@ -127,6 +127,13 @@ blockbazaar/
 - Restart the local deployment with `npx truffle migrate --reset --network development` if the contract needs to be redeployed.
 - Do not use real funds or treat this local prototype as a production marketplace.
 
+## Learning reference and attribution
+
+The core `Marketplace` smart-contract structure and its product creation and purchase flow follow the educational example in [Dapp University's Ethereum marketplace tutorial](https://dappuniversity.com/articles/how-to-build-a-blockchain-app). The corresponding [Dapp University marketplace source](https://github.com/dappuniversity/marketplace) is a useful reference for the original learning material.
+
+This repository is a modified academic prototype. Its project interface, presentation, filtering, insights, and local development adjustments are maintained in this repository. The tutorial reference is acknowledged here to distinguish the educational starting point from this project's modifications.
+
+
 ## License
 
 See [LICENSE](LICENSE) for the license included with this repository.
