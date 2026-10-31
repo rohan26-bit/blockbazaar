@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blockbazaar-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    name: Solidity compile and Truffle tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Start local Ganache and run contract checks
+        shell: bash
+        run: |
+          npx --yes ganache@7.9.2 \
+            --server.host 127.0.0.1 \
+            --server.port 7545 \
+            --wallet.totalAccounts 10 \
+            --logging.quiet > "$RUNNER_TEMP/ganache.log" 2>&1 &
+          GANACHE_PID=$!
+          cleanup() {
+            kill "$GANACHE_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          READY=0
+          for attempt in {1..30}; do
+            if curl --silent --fail \
+              -H "Content-Type: application/json" \
+              --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' \
+              http://127.0.0.1:7545 >/dev/null; then
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$READY" -ne 1 ]; then
+            cat "$RUNNER_TEMP/ganache.log"
+            echo "Ganache did not become ready in 30 seconds."
+            exit 1
+          fi
+
+          npx truffle compile --all
+          npx truffle migrate --reset --network development
+          npx truffle test --network development
+
+  frontend-build:
+    name: React production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_OPTIONS: --openssl-legacy-provider
+      CI: "false"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Build production frontend
+        run: npm run build
