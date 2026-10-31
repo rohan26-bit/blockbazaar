@@ -17,6 +17,16 @@ BlockBazaar demonstrates how a web application can interact with a smart contrac
 - View basic marketplace insights, including highest-priced, lowest-priced, and available products.
 - Switch between accounts provided by the local Ganache network.
 
+## Screenshots
+
+### Marketplace Overview
+![BlockBazaar Marketplace](docs/screenshots/blockbazaar-marketplace.png)
+*Populated marketplace view showing product listings with prices in ETH, ownership details, and availability status on the local development blockchain.*
+
+### Product Listing Interface
+![BlockBazaar Product Listing](docs/screenshots/blockbazaar-listing.png)
+*The product listing interface allowing users to publish new items and set ETH prices directly through the smart contract.*
+
 ## Technology stack
 
 | Layer | Technologies |
