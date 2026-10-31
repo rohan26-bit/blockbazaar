@@ -1,5 +1,6 @@
 # BlockBazaar
 
+[![CI](https://github.com/rohan26-bit/blockbazaar/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rohan26-bit/blockbazaar/actions/workflows/ci.yml)
 A blockchain-based marketplace prototype where users can list products and purchase them through an Ethereum smart contract. The project uses a React interface, Web3.js, Solidity, Truffle, and a local Ganache development network.
 
 ## Overview
